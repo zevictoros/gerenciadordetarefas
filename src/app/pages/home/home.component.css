@@ -1,0 +1,124 @@
+.sidebar {
+    position: fixed;
+    z-index: 999;
+    width: 240px;
+    height: 100%;
+    left: -240px;
+    transition: all 0.3s ease;
+    color: white;
+    padding-top: 20px;
+    border-right: 6px double #58bc82;
+}
+
+.link-sidebar {
+    background-color: #212121;
+    border-bottom: 1px solid #58bc82;
+}
+
+.sidebar.open {
+    left: 0;
+}
+
+.sidebar header {
+    text-align: center;
+    font-size: 24px;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.sidebar .link-sidebar {
+    display: block;
+    padding: 20px 15px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    transition: all 0.3s ease;
+}
+
+.sidebar .link-sidebar span,
+.sidebar .link-sidebar i {
+    background-color: transparent;
+    transition: all 0.3s ease;
+}
+
+
+.sidebar .link-sidebar:hover,
+.sidebar .link-sidebar:hover span,
+.sidebar .link-sidebar:hover i {
+    background-color: #4aa76f;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.sidebar .link-sidebar i {
+    margin-right: 10px;
+}
+
+/* Main Content */
+.home-content {
+    transition: margin-left 0.3s ease;
+    background-color: #212121;
+    color: white;
+    margin-left: 60px;
+    padding: 20px 0px 0px 20px;
+    box-sizing: border-box;
+}
+
+
+.home-content.with-sidebar {
+    margin-left: 240px;
+}
+
+
+/* Botão de abrir/fechar */
+.toggle-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    border: none;
+    background-color: #58bc82;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 20px;
+    transition: all 0.3s ease, left 0.3s ease;
+}
+
+.toggle-btn i {
+    background-color: #58bc82;
+}
+
+/* Quando o menu estiver aberto */
+.toggle-btn.menu-open {
+    left: 195px;
+}
+
+/* Quando o menu estiver fechado */
+.toggle-btn.menu-closed {
+    left: 10px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+        left: -200px;
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .home-content {
+        margin-left: 0;
+    }
+
+    .toggle-btn {
+        margin-left: 15px;
+    }
+}

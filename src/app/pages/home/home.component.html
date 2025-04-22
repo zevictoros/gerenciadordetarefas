@@ -1,0 +1,25 @@
+<!-- Sidebar -->
+<div class="sidebar" [ngClass]="{'open': isSidebarOpen}">
+    <header>Menu</header>
+    <a class="link-sidebar" (click)="exibirComponente('tarefa')">
+        <i class="bi bi-house-door"></i> <span>Home</span>
+    </a>
+    <a class="link-sidebar" (click)="exibirComponente('funcionarios')">
+        <i class="bi bi-person-fill"></i> <span>Funcionários</span>
+    </a>
+    <a class="link-sidebar" (click)="exibirComponente('cargos')">
+        <i class="bi bi-person-badge"></i> <span>Cargos</span>
+    </a>
+
+</div>
+
+<button class="toggle-btn" [ngClass]="{ 'menu-open': isSidebarOpen, 'menu-closed': !isSidebarOpen }"
+    (click)="toggleSidebar()">
+    <i [ngClass]="isSidebarOpen ? 'bi bi-x' : 'bi bi-list'"></i>
+</button>
+
+<main class="home-content" [ngClass]="{'with-sidebar': isSidebarOpen}">
+    <app-tarefa *ngIf="componenteAtual === 'tarefa'"></app-tarefa>
+    <app-funcionarios *ngIf="componenteAtual === 'funcionarios'"></app-funcionarios>
+    <app-cargos *ngIf="componenteAtual === 'cargos'"></app-cargos>
+</main>

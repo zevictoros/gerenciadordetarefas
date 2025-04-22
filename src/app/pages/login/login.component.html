@@ -1,0 +1,52 @@
+<!-- FORMULÁRIO DE LOGIN -->
+<!-- FORMULÁRIO DE LOGIN -->
+<div class="login" *ngIf="exibirLogin">
+  <form class="form" (ngSubmit)="loginUsuario()">
+    <span class="input-span">
+      <label for="email" class="label">Email</label>
+      <input type="email" name="email" id="email" [(ngModel)]="login.email" required />
+    </span>
+    <span class="input-span">
+      <label for="password" class="label">Senha</label>
+      <input type="password" name="password" id="password" [(ngModel)]="login.senha" required />
+    </span>
+    <span class="span"><a href="#">Esqueceu a senha?</a></span>
+    <input class="submit" type="submit" value="Entrar"/>
+    <span class="span">
+      Não tem uma conta?
+      <a href="#" (click)="mostrarCadastro(); $event.preventDefault()">Inscreva-se</a>
+    </span>
+  </form>
+</div>
+
+
+<!-- FORMULÁRIO DE CADASTRO -->
+<div class="login" *ngIf="!exibirLogin">
+  <form class="form" (ngSubmit)="cadastrarUsuario()" #formCadastro="ngForm">
+    <span class="input-span">
+      <label for="nome" class="label">Nome</label>
+      <input type="text" name="nome" id="nome" [(ngModel)]="usuario.nome" required />
+    </span>
+    <span class="input-span">
+      <label for="sobrenome" class="label">Sobrenome</label>
+      <input type="text" name="sobrenome" id="sobrenome" [(ngModel)]="usuario.sobrenome" required />
+    </span>
+    <span class="input-span">
+      <label for="emailCadastro" class="label">Email</label>
+      <input type="email" name="emailCadastro" id="emailCadastro" [(ngModel)]="usuario.email" required />
+    </span>
+    <span class="input-span">
+      <label for="senhaCadastro" class="label">Senha</label>
+      <input type="password" name="senhaCadastro" id="senhaCadastro" [(ngModel)]="usuario.senha" required />
+    </span>
+    <span class="input-span">
+      <label for="confirmarSenha" class="label">Confirmar Senha</label>
+      <input type="password" name="confirmarSenha" id="confirmarSenha" [(ngModel)]="usuario.confirmarSenha" required />
+    </span>
+    <input class="submit" type="submit" value="Cadastrar" [disabled]="formCadastro.invalid" />
+    <span class="span">
+      Já tem uma conta?
+      <a href="#" (click)="mostrarLogin(); $event.preventDefault()">Entrar</a>
+    </span>
+  </form>
+</div>

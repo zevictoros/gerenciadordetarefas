@@ -1,0 +1,111 @@
+<div class="container">
+    <h2>Gerenciamento de Tarefas</h2>
+
+    <button class="buttonAdd" (click)="abrirFormulario()">Adicionar Nova Tarefa</button>
+
+    <!-- Exibe o formulário de adição de tarefa -->
+    <div *ngIf="exibindoFormulario" class="formulario-tarefa form-container">
+        <form class="form">
+            <h3>Nova Tarefa</h3>
+            <div class="form-group">
+                <label for="text">Tarefa:</label>
+                <input type="text" [(ngModel)]="novaTarefa.descricao_tarefa" name="descricao_tarefa" />
+            </div>
+            <div class="form-group">
+                <label for="select">Prioridade:</label>
+                <select [(ngModel)]="novaTarefa.prioridade" name="prioridade">
+                    <option value="baixa">Baixa</option>
+                    <option value="media">Média</option>
+                    <option value="alta">Alta</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="select">Responsável:</label>
+                <select [(ngModel)]="novaTarefa.responsavel_id" name="responsavel_id">
+                    <option [ngValue]="undefined"></option>
+                    <option *ngFor="let func of funcionarios" [value]="func.id">{{ func.nome_funcionario }}</option>
+                </select>
+            </div>
+
+            <div class="form-buttons">
+                <button class="form-submit-btn" (click)="adicionarTarefa()">Adicionar</button>
+                <button class="cancelar form-submit-btn" (click)="cancelarFormulario()">Cancelar</button>
+            </div>
+        </form>
+
+    </div>
+    <!-- Lista de Tarefas -->
+    <div class="lista-tarefas">
+        <h3>Tarefas Pendentes</h3>
+
+        <!-- Exibe mensagem se não houver tarefas -->
+        <p *ngIf="tarefas.length === 0">Sem tarefas pendentes</p>
+
+        <div *ngFor="let tarefa of tarefas" class="card" [attr.data-prioridade]="tarefa.prioridade">
+            <div *ngIf="editandoId !== tarefa.id">
+                <p><strong>Descrição:</strong> {{ tarefa.descricao_tarefa }}</p>
+                <p><strong>Prioridade:</strong> {{ tarefa.prioridade }}</p>
+                <p><strong>Responsável:</strong> {{ getNomeResponsavel(tarefa.responsavel_id) }}</p>
+                <p><strong>Status:</strong> {{ tarefa.finalizada ? 'Finalizada' : 'Pendente' }}</p>
+
+                <div class="lista-buttons">
+                    <!-- Botão de editar -->
+                    <button (click)="editarTarefa(tarefa)" class="Btn">Editar
+                        <svg class="svg" viewBox="0 0 512 512">
+                            <path
+                                d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z">
+                            </path>
+                        </svg>
+                    </button>
+                    <!-- Botão para finalizar a tarefa com confirmação -->
+                    <button *ngIf="!tarefa.finalizada" (click)="confirmarFinalizacao(tarefa)" class="Btn">
+                        Finalizar
+                        <svg class="svg" viewBox="0 0 512 512">
+                            <path
+                                d="M504.5 75.5c-9.4-9.4-24.6-9.4-33.9 0L184 362.1 41.4 219.5c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l160 160c9.4 9.4 24.6 9.4 33.9 0l304-304c9.4-9.4 9.4-24.6 0-33.9z">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- Formulário de edição de tarefa -->
+            <div class="editForm" *ngIf="editandoId === tarefa.id">
+                <input [(ngModel)]="tarefaEdit.descricao_tarefa" class="input editForm-input" name="text" type="text">
+
+                <select [(ngModel)]="tarefaEdit.prioridade" class="editForm-input">
+                    <option value="baixa">Baixa</option>
+                    <option value="media">Média</option>
+                    <option value="alta">Alta</option>
+                </select>
+
+                <select [(ngModel)]="tarefaEdit.responsavel_id" class="editForm-input">
+                    <option [ngValue]="undefined">Selecione o responsável</option>
+                    <option *ngFor="let func of funcionarios" [value]="func.id">{{ func.nome_funcionario }}</option>
+                </select>
+
+                <div class="editForm-buttons">
+                    <button (click)="salvarEdicao(tarefa.id)" class="Btn" style="margin-right: 5px;">Salvar
+                        <svg class="svg" viewBox="0 0 512 512">
+                            <path d="M433.941 129.941L382.059 78.059A48 48 0 00348.118 64H80c-26.51 0-48 21.49-48 48v288c0 
+          26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V163.882a48 48 0 00-14.059-33.941zM256 
+          416c-35.346 0-64-28.654-64-64s28.654-64 64-64 64 28.654 64 64-28.654 64-64 
+          64zm80-256H96V96h240v64z" />
+                        </svg>
+                    </button>
+
+                    <button (click)="cancelarEdicao()" class="Btn cancel">Cancelar
+                        <svg class="svg" viewBox="0 0 384 512">
+                            <path d="M231 256L374.6 112.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 
+                              0L185.4 210.7 41.4 66.7c-12.5-12.5-32.8-12.5-45.3 
+                              0s-12.5 32.8 0 45.3L140.7 256 0 396.6c-12.5 12.5-12.5 
+                              32.8 0 45.3s32.8 12.5 45.3 0L185.4 301.3l144 144c12.5 
+                              12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L231 256z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
