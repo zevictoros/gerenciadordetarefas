@@ -120,7 +120,3 @@ Este projeto foi desenvolvido com foco em:
 - **Responsividade**: adaptado para diferentes dispositivos (desktop, tablet e mobile).
 
 Todas as rotas do sistema foram tratadas com autenticação obrigatória e redirecionamento para rotas inexistentes.
-
----
-
-<p align="center"><strong>Um sistema desenvolvido com carinho, qualidade e paixão por código! 💙🚀</strong></p>
